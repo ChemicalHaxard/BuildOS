@@ -16,7 +16,7 @@ bash ~/git_cookies.sh
 fi
 
 # Sync source
-repo init --depth=1 --no-repo-verify -u https://github.com/ImSpiDy/android_manifest -b rr -g default,-mips,-darwin,-notdefault
+repo init --depth=1 --no-repo-verify -u https://github.com/ResurrectionRemix-Revived/manifest.git -b Q --git-lfs
 
 # Sync source without unnecessary messages, try with -j30 first, if fails, it will try again
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10
@@ -24,10 +24,10 @@ repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync 
 # tree
 git clone --depth=1 https://ImSpiDy:$my_og_token@github.com/ImSpiDy/device_xiaomi_lavender device/xiaomi/lavender -b 10
 git clone --depth=1 https://ImSpiDy:$my_og_token@github.com/ImSpiDy/vendor_xiaomi_lavender vendor/xiaomi/lavender -b 10
-git clone --depth=1 https://ImSpiDy:$my_og_token@github.com/ImSpiDy/kernel_xiaomi_lavender kernel/xiaomi/lavender -b X5.1
+git clone --depth=1 https://ImSpiDy:$my_og_token@github.com/ImSpiDy/kernel_xiaomi_lavender kernel/xiaomi/lavender -b X7
 
 # extra stuff
-git clone --depth=1 https://github.com/LineageOS/android_hardware_lineage_livedisplay hardware/lineage/livedisplay -b lineage-17.1
+#git clone --depth=1 https://github.com/LineageOS/android_hardware_lineage_livedisplay hardware/lineage/livedisplay -b lineage-17.1
 git clone --depth=1 https://github.com/Nub-XD/android_packages_apps_Dirac packages/apps/Dirac -b 10
 git clone --depth=1 https://github.com/Nub-XD/platform_vendor_lawnchair vendor/lawnchair -b 10
 git clone --depth=1 https://gitlab.com/Project-Nexus/nexus-clang.git /tmp/rom/prebuilts/clang/host/linux-x86/nexus-clang -b nexus-14
@@ -36,9 +36,15 @@ git clone --depth=1 https://gitlab.com/Project-Nexus/nexus-clang.git /tmp/rom/pr
 rm -rf /tmp/rom/hardware/qcom-caf/msm8998/display
 rm -rf /tmp/rom/hardware/qcom-caf/msm8998/audio
 rm -rf /tmp/rom/hardware/qcom-caf/msm8998/media
-git clone --depth=1 https://github.com/NusantaraProject-ROM/android_hardware_qcom_display /tmp/rom/hardware/qcom-caf/msm8998/display -b 10-msm8998
-git clone --depth=1 https://github.com/NusantaraProject-ROM/android_hardware_qcom_audio /tmp/rom/hardware/qcom-caf/msm8998/audio -b 10-msm8998
-git clone --depth=1 https://github.com/NusantaraProject-ROM/android_hardware_qcom_media /tmp/rom/hardware/qcom-caf/msm8998/media -b 10-msm8998
+git clone --depth=1 https://github.com/Nub-XD/android_hardware_qcom_display /tmp/rom/hardware/qcom-caf/msm8998/display -b 10-msm8998
+git clone --depth=1 https://github.com/Nub-XD/android_hardware_qcom_audio /tmp/rom/hardware/qcom-caf/msm8998/audio -b 10-msm8998
+git clone --depth=1 https://github.com/Nub-XD/android_hardware_qcom_media /tmp/rom/hardware/qcom-caf/msm8998/media -b 10-msm8998
+
+# Patch
+cd /tmp/rom/vendor/rr && curl https://github.com/Nub-XD/android_vendor/commit/d94560b57c5eaf3f0b36822491cb0399ba6cb00a.patch | git am
+cd /tmp/rom/frameworks/base && curl https://github.com/Nub-XD/android_frameworks_base/commit/ebc89191b7bf6656eab876e181986aa2054542c5.patch | git am
+cd /tmp/rom/frameworks/base && curl https://github.com/Nub-XD/android_frameworks_base/commit/048d755e67f8113499a0f97d6413b6f2ed5073e6.patch | git am
+cd /tmp/rom/build/make && curl https://github.com/Nub-XD/android_build/commit/5d43d44a1fb462f0feca4f6deefe4a0e8a5af60a.patch | git am
 
 # patch
 #cd /tmp/rom/packages/apps/ManagedProvisioning && curl https://github.com/Nub-XD/android_packages_apps_ManagedProvisioning/commit/b0aaec6871bea7a512984f1535ff4146aadb8049.patch | git am
