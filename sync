@@ -29,7 +29,7 @@ git clone --depth=1 https://ImSpiDy:$my_og_token@github.com/ImSpiDy/kernel_xiaom
 # extra stuff
 #git clone --depth=1 https://github.com/LineageOS/android_hardware_lineage_livedisplay hardware/lineage/livedisplay -b lineage-17.1
 git clone --depth=1 https://github.com/Nub-XD/android_packages_apps_Dirac packages/apps/Dirac -b 10
-git clone --depth=1 https://github.com/Nub-XD/platform_vendor_lawnchair vendor/lawnchair -b 10
+#git clone --depth=1 https://github.com/Nub-XD/platform_vendor_lawnchair vendor/lawnchair -b 10
 git clone --depth=1 https://gitlab.com/Project-Nexus/nexus-clang.git /tmp/rom/prebuilts/clang/host/linux-x86/nexus-clang -b nexus-14
 
 # soc hals
