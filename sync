@@ -43,7 +43,7 @@ git clone --depth=1 https://github.com/Nub-XD/android_hardware_qcom_media /tmp/r
 # Patch
 cd /tmp/rom/vendor/rr && curl https://github.com/Nub-XD/android_vendor/commit/d94560b57c5eaf3f0b36822491cb0399ba6cb00a.patch | git am
 cd /tmp/rom/frameworks/base && curl https://github.com/Nub-XD/android_frameworks_base/commit/ebc89191b7bf6656eab876e181986aa2054542c5.patch | git am
-cd /tmp/rom/frameworks/base && curl https://github.com/Nub-XD/android_frameworks_base/commit/048d755e67f8113499a0f97d6413b6f2ed5073e6.patch | git am
+#cd /tmp/rom/frameworks/base && curl https://github.com/Nub-XD/android_frameworks_base/commit/048d755e67f8113499a0f97d6413b6f2ed5073e6.patch | git am
 cd /tmp/rom/build/make && curl https://github.com/Nub-XD/android_build/commit/5d43d44a1fb462f0feca4f6deefe4a0e8a5af60a.patch | git am
 cd /tmp/rom/vendor/qcom/opensource/power && curl https://github.com/Nub-XD/android_vendor_qcom_opensource_power/commit/9108d8ecd3763b7c0ea17ec6aecf62645b4fa175.patch | git am
 
