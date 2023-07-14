@@ -7,11 +7,10 @@ build_gapps=1
 # export variable here
 export TZ=Asia/Kolkata
 export SELINUX_IGNORE_NEVERALLOWS=true
-export WITH_GMS=false
+#export WITH_GMS=false
 
 exp_gapps() {
-export WITH_GMS=true
-export TARGET_CORE_GMS=true
+export TARGET_CORE_GMS_EXTRAS=true
 }
 
 compile_plox () {
