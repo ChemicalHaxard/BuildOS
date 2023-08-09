@@ -39,6 +39,9 @@ git clone --depth=1 https://github.com/ArrowOS/android_device_qcom_sepolicy-lega
 #rm -rf /tmp/rom/device/xiaomi/lavender/libhidl
 rm -rf /tmp/rom/hardware/xiaomi/megvii/*.bp
 
+# clang 17
+git clone --depth=1 https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r498229 /tmp/rom/prebuilts/clang/host/linux-x86/aosp-clang
+
 #hals
 sed -i 's|QCOM_HARDWARE_VARIANT := msm8998|QCOM_HARDWARE_VARIANT := sdm660|' vendor/*/config/B*Qcom.mk
 rm -rf hardware/qcom-caf/sdm660/audio hardware/qcom-caf/sdm660/media hardware/qcom-caf/sdm660/display
