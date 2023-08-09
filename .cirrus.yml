@@ -4,9 +4,9 @@ env: # Environment variables to pass to all tasks
 
 # store our secrets here
     my_og_token: "ENCRYPTED[!d96db82b7b5ac8a92b77d2cbbbc52e845c5a8797af0e047e360ae1e774347d2cb5a87440e53af61855bd1e75e1f4d620!]" # main id
-    github_token: "ENCRYPTED[!b37d560adaeb2a229b43a007b506361590ebf8ee0c8dd3ed643dd265921a16a1e9c6cd30813ab8888843e3630f4e06b0!]" # alt id
+    github_token: "ENCRYPTED[!49bb0f777b60aade43a82a317b13ac241212b207b662ee9c23058536a4bfacd6f40384fde22a9a557f093dd514aff694!]" # alt id
     bot_api: "ENCRYPTED[!c262f1e147caa787ff1ff0923ce95604e26b01fdedf819bd14e5d9d2a9028d7dd8af95f4f364d841ea4819891d46c76a!]"
-    chat_id: "ENCRYPTED[!a74ba1c6f6888c761edd16b42107a2d257f65b93ba4e468fb841a9bc8e4f47915e8de32b3670d8718204cd3dd9c7fcce!]"
+    chat_id: "ENCRYPTED[!2549c1ae75aaf9ba8a28b075662dbe9d4752e70c4cbab7bee0efc89573baf8a60a2123feb19274987c2d1d44b111b7b1!]"
     v_core: "16"
     s_core: "16"
     ext: "-4.19" # extend rom_name to avoid cache conflicts
