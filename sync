@@ -60,8 +60,8 @@ curl https://github.com/wHo-EM-i/bionic/commit/8bfccafe0a7c5d2584ce0aa414c846a13
 curl https://github.com/wHo-EM-i/bionic/commit/6db6121472c45316bc6135f05da38227fdc9962e.patch | git am
 
 # vendor
-cd /tmp/rom/vendor/derp
-curl https://github.com/Nub-XD/android_vendor/commit/d405f8b6bc5ff3eb951d70935a25dca6c572e4c0.patch | git am
+#cd /tmp/rom/vendor/derp
+#curl https://github.com/Nub-XD/android_vendor/commit/d405f8b6bc5ff3eb951d70935a25dca6c572e4c0.patch | git am
 
 . /tmp/ci/function
 tg "$rom_name source sync completed!
