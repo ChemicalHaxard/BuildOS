@@ -19,7 +19,7 @@ fi
 repo init --depth=1 --no-repo-verify -u https://github.com/crdroidandroid/android -b 11.0 --git-lfs
 
 # Sync source without unnecessary messages, try with -j30 first, if fails, it will try again
-repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10
+# repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10
 
 # tree
 git clone --depth=1 https://ImSpiDy:$my_og_token@github.com/ImSpiDy/device_xiaomi_lavender device/xiaomi/lavender -b R
