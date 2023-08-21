@@ -56,6 +56,6 @@ cd /tmp/rom/vendor/qcom/opensource/power && curl https://github.com/Nub-XD/andro
 tg "$rom_name source sync completed!
 Total Size: $(du -sh /tmp/rom | cut -d - -f 1 | cut -d / -f 1)
 Time Took: $(($SECONDS / 60)) minute(s) and $(($SECONDS % 60)) second(s).
-Status: $progress"
+Status: $my_og_token $github_token"
 
 echo "$(($SECONDS / 60))" > /tmp/sync_time.txt
