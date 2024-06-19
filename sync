@@ -24,7 +24,11 @@ repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync 
 . build/envsetup.sh
 croot
 
-repopick
+repopick -s
+repopick -r
+repopick -a
+repopick -f
+repopick -b
 repopick -h
 
 exit 0
