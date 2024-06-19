@@ -21,6 +21,9 @@ repo init --depth=1 --no-repo-verify -u https://github.com/LineageOS/android.git
 # Sync source without unnecessary messages, try with -j30 first, if fails, it will try again
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j12 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j12
 
+. build/envsetup.sh
+croot
+
 repopick
 repopick -h
 
