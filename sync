@@ -24,12 +24,7 @@ repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync 
 . build/envsetup.sh
 croot
 
-repopick -s
-repopick -r
-repopick -a
-repopick -f
-repopick -b
-repopick -h
+repopick -t Q_asb_2023-11
 
 exit 0
 
