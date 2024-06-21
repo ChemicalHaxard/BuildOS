@@ -60,6 +60,10 @@ git clone --depth=1 https://github.com/arrowos-devices/android_hardware_xiaomi h
 #rm -rf device/xiaomi/lavender/libhidl
 rm -rf hardware/xiaomi/megvii/*.bp
 
+# patch
+rm -rf /tmp/rom/bionic
+git clone --depth=1 https://github.com/wHo-EM-i/bionic -b vos13
+
 # clang 17
 #git clone --depth=1 https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r498229 prebuilts/clang/host/linux-x86/aosp-clang
 
@@ -74,14 +78,18 @@ rm -rf hardware/qcom-caf/sdm660/audio hardware/qcom-caf/sdm660/media
 git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_audio hardware/qcom-caf/sdm660/audio -b 13-caf-sdm660
 #git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_display hardware/qcom-caf/sdm660/display -b 13-caf_4.19
 git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_media hardware/qcom-caf/sdm660/media -b 13-caf-sdm660
-git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_camera hardware/qcom-caf/sdm660/camera -b sdm660-4.19-11.2.1.r1
+
+#git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_camera hardware/qcom-caf/sdm660/camera -b sdm660-4.19-11.2.1.r1
+git clone --depth=1 https://github.com/pix106/android_hardware_qcom-caf_camera hardware/qcom-caf/sdm660/camera -b sdm660-4.19-11.2.1.r1-lavender
 
 # webview issue due to file lfs file format
 #rm -rf /tmp/rom/external/chromium-webview/prebuilt/arm64/
 #git clone --depth=1 https://gitlab.com/dib12/webview /tmp/rom/external/chromium-webview/prebuilt/arm64 -b 116.0.5845.92
 
 # keys
-git clone --depth=1 https://github.com/Los-Ext/vendor_lineage-priv_keys vendor/lineage-priv/keys
+#git clone --depth=1 https://github.com/Los-Ext/vendor_lineage-priv_keys vendor/lineage-priv/keys
+git clone https://github.com/Nub-XD/vendor_lavender-priv_keys vendor/lineage-priv/keys
+echo "-include vendor/lineage-priv/keys/keys.mk" >> vendor/*/config/common.mk
 
 git config --global user.name "$CIRRUS_REPO_OWNER"
 echo "switching account" && gh auth logout
