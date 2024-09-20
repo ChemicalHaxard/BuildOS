@@ -23,5 +23,5 @@ export USE_GAPPS=false
 compile_plox () {
 #ls out/target/product/lavender/system.img || make systemimage -j10
 #m bacon -j16
-./r* lavender -t user
+./r* lavender -t user -j8
 }
