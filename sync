@@ -44,7 +44,11 @@ git clone --depth=1 https://github.com/ImSpiDy/sonix_kernel_sdm660 kernel/xiaomi
 else
 git clone --depth=1 https://github.com/ImSpiDy/kernel_xiaomi_lavender-4.4 kernel/xiaomi/sdm660 -b snx-qti
 fi
+
 git clone https://github.com/ImSpiDy/device_xiaomi_lavender device/xiaomi/lavender -b 13
+git -C device/xiaomi/lavender revert --no-edit c4be758e22889a9f79152cb65869cce9617a4036
+git -C device/xiaomi/lavender revert --no-edit e99ab4426a679cfd117c6eeb7ec36769b18ae71e
+
 git clone --depth=1 https://github.com/ImSpiDy/device_xiaomi_sdm660-common device/xiaomi/sdm660-common -b 13
 
 git clone --depth=1 https://github.com/ImSpiDy/vendor_lavender vendor/xiaomi/lavender -b 13
@@ -63,6 +67,10 @@ rm -rf hardware/xiaomi/megvii/*.bp
 # patch
 rm -rf /tmp/rom/bionic
 git clone --depth=1 https://github.com/wHo-EM-i/bionic -b vos13
+# soong patch
+curl https://github.com/wHo-EM-i/build_soong/commit/1f4a7bed507a34ca6e46a5ab5b4017899133cab0.patch | git -C build/soong am
+# build_make
+curl https://github.com/VoltageOS/build/commit/765c1bfe16e78fe8aec256e507d4dc1445187f5e.patch | git -C build/make am
 
 # clang 17
 #git clone --depth=1 https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r498229 prebuilts/clang/host/linux-x86/aosp-clang
