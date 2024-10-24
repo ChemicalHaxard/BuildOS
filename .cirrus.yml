@@ -33,4 +33,4 @@ task:
     compile_script:
       - bash bu*
     upl_script:
-      - bash upl*
+      - bash exit 0 #upl*

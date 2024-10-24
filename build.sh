@@ -20,19 +20,64 @@ exp_gapps () {
 export USE_GAPPS=false
 }
 
+get_system () {
+tg "System.img Build Succeed!"
+7za a -tzip ${rom_name}-${branch_name}_system.zip out/target/product/lavender/system.img
+upload *_system.zip
+}
+
+get_product () {
+tg "Product.img Build Succeed!"
+7za a -tzip ${rom_name}-${branch_name}_product.zip out/target/product/lavender/product.img
+upload *_product.zip
+}
+
+get_system_ext () {
+tg "System_ext.img Build Succeed!"
+7za a -tzip ${rom_name}-${branch_name}_system_ext.zip out/target/product/lavender/system_ext.img
+upload *_system_ext.zip
+}
+
+get_vendor () {
+tg "Vendor.img Build Succeed!"
+7za a -tzip ${rom_name}-${branch_name}_vendor.zip out/target/product/lavender/vendor.img
+upload *_vendor.zip
+}
+
+get_odm () {
+tg "odm.img Build Succeed!"
+7za a -tzip ${rom_name}-${branch_name}_odm.zip out/target/product/lavender/odm.img
+upload *_odm.zip
+}
+
+get_boot () {
+tg "Boot.img Build Succeed!"
+7za a -tzip ${rom_name}-${branch_name}_boot.zip out/target/product/lavender/boot.img
+upload *_boot.zip
+}
+
+
 compile_plox () {
-#ls out/target/product/lavender/system.img || make systemimage -j10
-#m api-stubs-docs -j7 || tg "api-stubs-docs failed"
-#tg "Started api-stubs-docs compilation"
-#m api-stubs-docs-non-updatable -j7 || tg "api-stubs-docs-non-updatable failed"
-#m system-api-stubs-docs -j7 || tg "system-api-stubs-docs failed"
-#m system-api-stubs-docs-non-updatable -j7 || tg "system-api-stubs-docs-non-updatable failed"
-#m test-api-stubs-docs-non-updatable -j7 || tg "test-api-stubs-docs failed"
-#m test-api-stubs-docs -j7 || tg "test-api-stubs-docs failed"
-#m module-lib-api -j7 || tg "module-lib-api failed"
-#m module-lib-api-stubs-docs-non-updatable -j7 || tg "module-lib-api-stubs-docs-non-updatable failed"
-#m module-lib-api-stubs-docs -j 7 || tg "module-lib-api-stubs-docs failed"
-#m hwbinder-stubs-docs -j 7 || tg "hwbinder-stubs-docs failed"
-#tg "Now starting actual build"
-m bacon -j16
+# part 1
+#tg "System.img buid started!"
+#ls out/target/product/lavender/system.img && get_system || make systemimage -j16 && get_system
+
+#tg "Product.img buid started!"
+#ls out/target/product/lavender/product.img && get_product || make productimage -j16 && get_product
+
+tg "System_ext.img buid started!"
+ls out/target/product/lavender/system_ext.img && get_system_ext || make systemextimage -j16 && get_system_ext
+
+# part2
+tg "Vendor.img buid started!"
+ls out/target/product/lavender/vendor.img && get_vendor || make vendorimage -j16 && get_vendor
+
+#tg "odm.img buid started!"
+#ls out/target/product/lavender/odm.img && get_odm || make odmimage -j16 && get_odm
+
+tg "Boot.img buid started!"
+ls out/target/product/lavender/boot.img && get_boot || make bootimage -j16 && get_boot
+
+exit 0
+#m bacon -j16
 }

@@ -40,7 +40,7 @@ repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync 
 # tree
 
 if [ $K19 == 1 ]; then
-git clone --depth=1 https://github.com/ImSpiDy/sonix_kernel_sdm660 kernel/xiaomi/sdm660
+git clone --depth=1 https://github.com/ImSpiDy/sonix_kernel_sdm660 kernel/xiaomi/sdm660 -b 13-Retro
 else
 git clone --depth=1 https://github.com/ImSpiDy/kernel_xiaomi_lavender-4.4 kernel/xiaomi/sdm660 -b snx-qti
 fi
