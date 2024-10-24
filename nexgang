@@ -47,6 +47,8 @@ RUN sudo apt-get install -y \
     ccache \
     zram-config \
     jq \
+    brotli \
+    simg2img \
     aria2 \
     gh \
     unzip \

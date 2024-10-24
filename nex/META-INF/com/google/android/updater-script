@@ -1,0 +1,57 @@
+assert(getprop("ro.product.device") == "lavender" || getprop("ro.build.product") == "lavender" || abort("E3004: This package is for device: lavender; this device is " + getprop("ro.product.device") + "."););
+ifelse(is_mounted("/system_root"),unmount("/system_root"));
+ifelse(is_mounted("/vendor"),unmount("/vendor"));
+run_program("/system/bin/toybox", "blkdiscard", "/dev/block/bootdevice/by-name/system"); || abort("ERROR: Failed to discard data on system partition.");
+run_program("/system/bin/toybox", "blkdiscard", "/dev/block/bootdevice/by-name/vendor"); || abort("ERROR: Failed to discard data on vendor partition.");
+ui_print("- Flashing super_empty onto system partition...");
+package_extract_file("super_dummy.img", "/dev/block/bootdevice/by-name/system");
+
+# --- Start patching dynamic partitions ---
+
+
+# Update dynamic partition metadata
+
+assert(update_dynamic_partitions(package_extract_file("dynamic_partitions_op_list")));
+
+# Patch partition system
+
+ui_print("Patching system image unconditionally...");
+show_progress(0.500000, 0);
+block_image_update(map_partition("system"), package_extract_file("system.transfer.list"), "system.new.dat.br", "system.patch.dat") ||
+  abort("E1001: Failed to update system image.");
+
+# Patch partition vendor
+
+ui_print("Patching vendor image unconditionally...");
+show_progress(0.100000, 0);
+block_image_update(map_partition("vendor"), package_extract_file("vendor.transfer.list"), "vendor.new.dat.br", "vendor.patch.dat") ||
+  abort("E2001: Failed to update vendor image.");
+
+# Patch partition product
+
+ui_print("Patching product image unconditionally...");
+show_progress(0.100000, 0);
+block_image_update(map_partition("product"), package_extract_file("product.transfer.list"), "product.new.dat.br", "product.patch.dat") ||
+  abort("E2001: Failed to update product image.");
+
+# Patch partition odm
+
+ui_print("Patching odm image unconditionally...");
+show_progress(0.100000, 0);
+block_image_update(map_partition("odm"), package_extract_file("odm.transfer.list"), "odm.new.dat.br", "odm.patch.dat") ||
+  abort("E2001: Failed to update odm image.");
+
+# Patch partition system_ext
+
+ui_print("Patching system_ext image unconditionally...");
+show_progress(0.100000, 0);
+block_image_update(map_partition("system_ext"), package_extract_file("system_ext.transfer.list"), "system_ext.new.dat.br", "system_ext.patch.dat") ||
+  abort("E2001: Failed to update system_ext image.");
+
+# --- End patching dynamic partitions ---
+
+package_extract_file("boot.img", "/dev/block/bootdevice/by-name/boot");
+show_progress(0.100000, 10);
+ui_print("Patching device-tree and verity images...");
+package_extract_file("vbmeta.img", "/dev/block/bootdevice/by-name/vbmeta");
+set_progress(1.000000);

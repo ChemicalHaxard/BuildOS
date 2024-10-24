@@ -1,0 +1,9 @@
+ota-property-files=metadata:69:365,metadata.pb:502:249                 
+ota-required-cache=0
+ota-type=BLOCK
+post-build=Xiaomi/aospa_lavender/lavender:14/UKQ1.240723.001/eng.nobody.20240918.185020:user/release-keys
+post-build-incremental=eng.nobody.20240918.185020
+post-sdk-level=34
+post-security-patch-level=2024-09-05
+post-timestamp=1726685256
+pre-device=lavender
