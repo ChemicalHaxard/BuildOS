@@ -37,8 +37,8 @@ repo init --depth=1 --no-repo-verify -u https://github.com/crdroid-security/andr
 # Sync source without unnecessary messages, try with -j30 first, if fails, it will try again
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j16 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10
 
-rm -rf system/bt
-git clone --single-branch https://github.com/crdroid-security/android_system_bt -b 11.0 system/bt && git -C system/bt reset --hard HEAD~3
+#rm -rf system/bt
+#git clone --single-branch https://github.com/crdroid-security/android_system_bt -b 11.0 system/bt && git -C system/bt reset --hard HEAD~3
 
 # tree
 if [ $K19 == 1 ]; then
@@ -89,7 +89,7 @@ git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_media hard
 # exp 4.4 hals on 4.19
 git clone --depth=1 https://github.com/wHo-EM-i/hardware_qcom_display hardware/qcom-caf/sdm660/display -b 11-sdm660
 
-#git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_camera hardware/qcom-caf/sdm660/camera -b sdm660-4.19-11.2.1.r1
+#git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_camera hardware/qcom-caf/sdm660/camera -b sdm660-9.2.r1
 #git clone --depth=1 https://github.com/pix106/android_hardware_qcom-caf_camera hardware/qcom-caf/sdm660/camera -b sdm660-4.19-11.2.1.r1-lavender
 
 # keys
