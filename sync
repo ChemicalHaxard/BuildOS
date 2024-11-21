@@ -122,7 +122,7 @@ curl https://github.com/wHo-EM-i/build_soong/commit/0a769f9d183a692b9fd56dabd77a
 #curl https://github.com/crdroidandroid/android_bionic/commit/fbacd1563238aa2518971171e4d95cca61326cb8.patch | git -C bionic am
 #curl https://github.com/crdroidandroid/android_bionic/commit/7d66f1fb333114f7e35a2bd33e428d66b70e72ca.patch | git -C bionic am
 # fwb
-curl https://github.com/xdCLO-Modified/xd_frameworks_base/commit/efb19839c2215e4d087d9286b76c73c8ae15c701.patch | git -C frameworks/base am
+rm -rf frameworks/base; git clone --depth=1 https://github.com/JunkYard-XD/android_frameworks_base frameworks/base -b 11.0
 
 git config --global user.name "$CIRRUS_REPO_OWNER"
 echo "switching account" && gh auth logout
