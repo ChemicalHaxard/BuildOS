@@ -123,6 +123,7 @@ curl https://github.com/wHo-EM-i/build_soong/commit/0a769f9d183a692b9fd56dabd77a
 #curl https://github.com/crdroidandroid/android_bionic/commit/7d66f1fb333114f7e35a2bd33e428d66b70e72ca.patch | git -C bionic am
 # fwb
 rm -rf frameworks/base; git clone --depth=1 https://github.com/JunkYard-XD/android_frameworks_base frameworks/base -b 11.0
+git clone --depth=1 https://gitlab.com/Project-Nexus/nexus-clang.git prebuilts/clang/host/linux-x86/custom-clang -b nexus-14
 
 git config --global user.name "$CIRRUS_REPO_OWNER"
 echo "switching account" && gh auth logout
