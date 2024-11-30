@@ -32,7 +32,8 @@ login_main # main id
 git config --global credential.helper '!gh auth git-credential'
 
 # Sync source
-repo init --depth=1 --no-repo-verify -u https://github.com/crdroid-security/android.git -b 11.0 --git-lfs -g default,-mips,-darwin,-notdefault
+#https://github.com/crdroid-security/android.git -b 11.0
+repo init --depth=1 --no-repo-verify -u https://github.com/JunkYard-XD/manifest.git -b 11 --git-lfs -g default,-mips,-darwin,-notdefault
 
 # Sync source without unnecessary messages, try with -j30 first, if fails, it will try again
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j16 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10
@@ -42,11 +43,12 @@ repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync 
 
 # tree
 if [ $K19 == 1 ]; then
-#git clone --depth=1 https://github.com/stormbreaker-project/kernel_xiaomi_lavender_4.19 kernel/xiaomi/sdm660
-git clone https://github.com/ImSpiDy/sonix_kernel_sdm660 kernel/xiaomi/sdm660 -b 11
+git clone --depth=1 --single-branch https://github.com/ImSpiDy/sonix_kernel_sdm660 kernel/xiaomi/sdm660 -b 11
 #git -C kernel/xiaomi/sdm660 revert --no-edit 82c22783962ef202b2a6df7f09d47616f6f45c07
 #git -C kernel/xiaomi/sdm660 revert --no-edit edf92cc79b545136824f212490108846b27af5fc
 #sed -i '/CONFIG_INITRAMFS_IGNORE_SKIP_FLAG=/s/.*/CONFIG_INITRAMFS_IGNORE_SKIP_FLAG=n/' kernel/xiaomi/sdm660/arch/arm64/configs/lavender_defconfig
+#hevc fix
+curl https://github.com/Atom-X-Devs/scarlet_xiaomi_sdm660/commit/572d01152a3ad83fc401c1af19adbdf39fe8a7e1.patch | git -C kernel/xiaomi/sdm660 am
 #git -C kernel/xiaomi/sdm660 apply drop_rdp.p
 else
 git clone --depth=1 https://github.com/ImSpiDy/kernel_xiaomi_lavender-4.4 kernel/xiaomi/sdm660 -b snx-qti
@@ -54,10 +56,8 @@ fi
 git clone https://github.com/ImSpiDy/device_xiaomi_lavender device/xiaomi/lavender -b 11-4.19
 git clone --depth=1 https://github.com/ImSpiDy/device_xiaomi_sdm660-common device/xiaomi/sdm660-common -b 11-4.19
 
-git clone --depth=1 https://github.com/ImSpiDy/vendor_lavender vendor/xiaomi/lavender -b 11-4.19
-git clone --depth=1 https://github.com/ImSpiDy/vendor_xiaomi_sdm660-common vendor/xiaomi/sdm660-common -b 11-4.19
-
-#git clone --depth=1 https://github.com/wHo-EM-i/vendor_xiaomi_sdm660-common-4.4 vendor/xiaomi/sdm660-common-4.4 -b 13
+git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_lavender vendor/xiaomi/lavender -b 11-4.19
+git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_xiaomi_sdm660-common vendor/xiaomi/sdm660-common -b 11-4.19
 
 #rm -rf hardware/xiaomi
 #git clone --depth=1 https://github.com/arrowos-devices/android_hardware_xiaomi hardware/xiaomi -b arrow-13.1
@@ -76,21 +76,20 @@ git clone --depth=1 https://github.com/ImSpiDy/vendor_xiaomi_sdm660-common vendo
 #git clone --depth=1 https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r498229 prebuilts/clang/host/linux-x86/aosp-clang
 
 # Hals
-if [ $K19 == 1 ]; then
+rm -rf hardware/qcom-caf/sdm660
 sed -i 's|QCOM_HARDWARE_VARIANT := msm8998|QCOM_HARDWARE_VARIANT := sdm660|' vendor/*/config/B*Qcom.mk
-#sed -i 's|QSSI_SUPPORTED_PLATFORMS := $(UM_4_9_FAMILY)|QSSI_SUPPORTED_PLATFORMS := $(UM_4_4_FAMILY)|' vendor/*/config/B*Qcom.mk
-else
-sed -i 's|QCOM_HARDWARE_VARIANT := sdm660|QCOM_HARDWARE_VARIANT := msm8998|' vendor/*/config/B*Qcom.mk
-fi
-rm -rf hardware/qcom-caf/sdm660/audio hardware/qcom-caf/sdm660/media
-rm -rf hardware/qcom-caf/sdm660/display
+if [ $K19 == 1 ]; then
+#sed -i 's|QCOM_HARDWARE_VARIANT := msm8998|QCOM_HARDWARE_VARIANT := sdm660|' vendor/*/config/B*Qcom.mk
 git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_audio hardware/qcom-caf/sdm660/audio -b 11-caf-sdm660
 git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_media hardware/qcom-caf/sdm660/media -b 11-caf-sdm660
-# exp 4.4 hals on 4.19
-git clone --depth=1 https://github.com/wHo-EM-i/hardware_qcom_display hardware/qcom-caf/sdm660/display -b 11-sdm660
+else
+#sed -i 's|QCOM_HARDWARE_VARIANT := sdm660|QCOM_HARDWARE_VARIANT := msm8998|' vendor/*/config/B*Qcom.mk
+git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_audio hardware/qcom-caf/sdm660/audio -b sdm660-4.4
+git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_media hardware/qcom-caf/sdm660/media -b sdm660-4.4
+fi
 
+git clone --depth=1 https://github.com/wHo-EM-i/hardware_qcom_display hardware/qcom-caf/sdm660/display -b 11-caf-sdm660
 git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_camera hardware/qcom-caf/sdm660/camera -b sdm660-9.2.r1
-#git clone --depth=1 https://github.com/pix106/android_hardware_qcom-caf_camera hardware/qcom-caf/sdm660/camera -b sdm660-4.19-11.2.1.r1-lavender
 
 # keys
 #git clone --depth=1 https://github.com/Los-Ext/vendor_lineage-priv_keys vendor/lineage-priv/keys
@@ -121,8 +120,14 @@ curl https://github.com/wHo-EM-i/build_soong/commit/0a769f9d183a692b9fd56dabd77a
 #curl https://github.com/crdroidandroid/android_bionic/commit/4114593175e1bc96925be734a80551c6c1502379.patch | git -C bionic am
 #curl https://github.com/crdroidandroid/android_bionic/commit/fbacd1563238aa2518971171e4d95cca61326cb8.patch | git -C bionic am
 #curl https://github.com/crdroidandroid/android_bionic/commit/7d66f1fb333114f7e35a2bd33e428d66b70e72ca.patch | git -C bionic am
+
+# hax
 # fwb
-rm -rf frameworks/base; git clone --depth=1 https://github.com/JunkYard-XD/android_frameworks_base frameworks/base -b 11.0
+#rm -rf frameworks/base; git clone --depth=1 https://github.com/JunkYard-XD/android_frameworks_base frameworks/base -b 11.0
+git -C frameworks/base fetch https://github.com/JunkYard-XD/android_frameworks_base -t 11.0
+git -C frameworks/base cherry-pick d8be6329bcdfc9f384a350d04008f7e6853512eb^..3b6a25be3ad541488105bea9d7acdefae23f88e1
+# PPU
+git -C frameworks/base cherry-pick 87b4c62e3cbab2da36656dfddaf750aa1e008691
 git clone --depth=1 https://gitlab.com/Project-Nexus/nexus-clang.git prebuilts/clang/host/linux-x86/custom-clang -b nexus-14
 
 git config --global user.name "$CIRRUS_REPO_OWNER"
@@ -137,5 +142,48 @@ Time Took: $(($SECONDS / 60)) minute(s) and $(($SECONDS % 60)) second(s).
 Status: $progress"
 
 echo "$(($SECONDS / 60))" > /tmp/sync_time.txt
+
+
+dload_out () {
+tg "Downloading OUT backup"
+down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.001
+down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.002
+down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.003
+down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.004
+down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.005
+down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.006
+down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.007
+down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.008
+down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.009
+
+# Extract out so ci can use it
+if [ -e *_out.zip.001 ]; then
+echo "• Extracting OUT •"
+time 7za x *_out.zip.001
+fi
+if [ -e out.tar.gz ]; then
+time tar xf out.tar.gz
+fi
+
+if [ -e *_out.zip.001 ]; then
+tg "$rom_name out downloaded successfully!
+Total Size: $(du -sh ${PWD}/out | cut -d - -f 1 | cut -d / -f 1)
+Time Took: $(($SECONDS / 60)) minute(s) and $(($SECONDS % 60)) second(s).
+Status: $progress"
+else
+echo "Skipping OUT Download on 1st build..!"
+fi
+}
+
+#check_build_type
+#case "$build_type" in
+#		 C|c)
+#		 tg "Skipping OUT Download on Clean build"
+#		 ;; # else
+#		 *)
+#		 #dload_out
+#esac
+
+rm -rf *_out.zip.* out.tar.gz
 
 neofetch
