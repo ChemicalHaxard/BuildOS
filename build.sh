@@ -7,6 +7,7 @@ build_gapps=0
 # export variable here
 export TZ=Asia/Kolkata
 export SELINUX_IGNORE_NEVERALLOWS=true
+export SKIP_ABI_CHECKS=true
 
 exp_gapps () {
 export USE_GAPPS=false
