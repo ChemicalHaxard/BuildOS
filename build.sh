@@ -1,6 +1,6 @@
 # Normal build steps
 . build/envsetup.sh
-lunch nad_lavender-userdebug
+lunch nad_lavender-user
 
 build_gapps=0
 
