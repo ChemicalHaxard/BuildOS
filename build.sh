@@ -1,12 +1,12 @@
 # Normal build steps
 . build/envsetup.sh
-lunch voltage_lavender-userdebug
+lunch arrow_lavender-user
 
 build_gapps=0
 
 # export variable here
 export TZ=Asia/Kolkata
-export SELINUX_IGNORE_NEVERALLOWS=true
+#export SELINUX_IGNORE_NEVERALLOWS=true
 export RELAX_USES_LIBRARY_CHECK=true
 if [ $K19 == 1 ]; then
 export TARGET_KERNEL_VERSION=4.19
@@ -14,7 +14,9 @@ elif [ $K19 == 0 ]; then
 export TARGET_KERNEL_VERSION=4.4
 fi
 export PRODUCT_DEFAULT_DEV_CERTIFICATE=vendor/lineage-priv/keys/releasekey
-export WITH_GMS=false
+#export WITH_GMS=false
+export WITH_GMS=true
+export ARROW_GAPPS=true
 
 exp_gapps () {
 export USE_GAPPS=false
@@ -121,19 +123,23 @@ prepare_images
 convert_dat
 convert_br
 tg "- Zipping OTA Package"
-zip -r1v ${rom_name}-${branch_name}-Community-lavender-$(date +"%F-%H%S").zip *
-upload *.zip && exit 0
+#${branch_name}
+zip -r1v ${rom_name}-13-Community-lavender-$(date +"%F-%H%S").zip *
+mkdir -p /tmp/rom/out/target/product/lavender
+mv *.zip /tmp/rom/out/target/product/lavender
+cd /tmp/rom && ls /tmp/rom/out/target/product/lavender/*.zip
 }
 
 compile_plox () {
 # part 1
-#get_system
 #get_product
 #get_system_ext
+#get_system
+
 get_vendor
-get_odm
+#get_odm
 get_boot
 # part2 (choose manual zip or bacon if its not in parts)
 final_zip
-#m bacon -j8
+#m bacon -j14
 }
