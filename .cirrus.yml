@@ -25,6 +25,6 @@ task:
       stateful: true
       greedy: true
     run_script:
-      - git clone --depth=1 https://$REAL_REPO_OWNER:$my_og_token@github.com/ImSpiDy/sonix_kernel_sdm660 /tmp/k -b rtr
+      - git clone --depth=1 https://$REAL_REPO_OWNER:$my_og_token@github.com/ImSpiDy/sonix_kernel_sdm660 /tmp/k -b op
       - cd /tmp/k/
       - bash build_kramal.sh
