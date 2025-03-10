@@ -137,7 +137,7 @@ compile_plox () {
 #get_system
 
 get_vendor
-#get_odm
+get_odm
 get_boot
 # part2 (choose manual zip or bacon if its not in parts)
 final_zip

@@ -43,7 +43,7 @@ repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync 
 if [ $K19 == 1 ]; then
 git clone --single-branch https://github.com/ImSpiDy/sonix_kernel_sdm660 kernel/xiaomi/sdm660 && git -C kernel/xiaomi/sdm660 revert --no-edit 4cbc441be5366fdc5e7cc09c989df617c9c162d0
 else
-git clone --depth=1 https://github.com/ImSpiDy/kernel_xiaomi_lavender-4.4 kernel/xiaomi/sdm660 -b snx-qti
+git clone --depth=1 https://github.com/ImSpiDy/kernel_xiaomi_lavender-4.4 kernel/xiaomi/sdm660 -b snx-rdp
 fi
 
 git clone https://github.com/ImSpiDy/device_xiaomi_lavender device/xiaomi/lavender -b 13
@@ -94,7 +94,11 @@ else
 git clone --depth=1 https://github.com/ArrowOS/android_hardware_qcom_audio hardware/qcom-caf/sdm660/audio -b arrow-13.1-caf-msm8998
 git clone --depth=1 https://github.com/ArrowOS/android_hardware_qcom_media hardware/qcom-caf/sdm660/media -b arrow-13.1-caf-msm8998
 fi
-git clone --depth=1 https://github.com/wHo-EM-i/hardware_qcom_display hardware/qcom-caf/sdm660/display -b 15-9.2.r1
+
+#mine
+#git clone --depth=1 https://github.com/wHo-EM-i/hardware_qcom_display hardware/qcom-caf/sdm660/display -b 15-9.2.r1
+#pix106
+git clone --depth=1 https://github.com/pix106/android_hardware_qcom-caf_display hardware/qcom-caf/sdm660/display -b lineage-22.1-caf-sdm660
 
 git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_camera hardware/qcom-caf/sdm660/camera -b sdm660-4.19-11.2.1.r1
 #git clone --depth=1 https://github.com/pix106/android_hardware_qcom-caf_camera hardware/qcom-caf/sdm660/camera -b sdm660-4.19-11.2.1.r1-lavender
