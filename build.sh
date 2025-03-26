@@ -1,5 +1,11 @@
 # Normal build steps
+
 . build/envsetup.sh
+# RBE
+. /tmp/ci/rbe
+export OUT_DIR=out
+export RBE_OUT_DIR=out
+env | grep RBE
 lunch voltage_lavender-userdebug
 
 build_gapps=0
@@ -137,8 +143,8 @@ split_build () {
 case "$build_type" in
 		 c|C|s|S)
 		 # part 1
-		 #get_product
-		 #get_system_ext
+		 get_product
+		 get_system_ext
 		 get_system
 		 ;;
 		 *)
@@ -146,13 +152,13 @@ case "$build_type" in
 		 get_vendor
 		 # fking ksu errors
 		 ls out/target/product/lavender/vendor.img || get_vendor
-		 #get_odm
-		 #get_boot
+		 get_odm
+		 get_boot
 esac
 }
 
 compile_plox () {
-split_build
-final_zip
-#m bacon -j8
+#split_build
+#final_zip
+m bacon -j16
 }
