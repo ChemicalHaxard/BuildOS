@@ -3,10 +3,15 @@
 . build/envsetup.sh
 # RBE
 . /tmp/ci/rbe
-export OUT_DIR=out
-export RBE_OUT_DIR=out
+#export NINJA_REMOTE_NUM_JOBS=150
+export RBE_CXX_LINKS_EXEC_STRATEGY=local
+export RBE_METALAVA_EXEC_STRATEGY=local
+export RBE_LOG_LEVEL=debug
 env | grep RBE
-lunch voltage_lavender-userdebug
+
+# force disable ccache
+#export USE_CCACHE=0
+lunch lineage_lavender-user
 
 build_gapps=0
 
@@ -21,13 +26,20 @@ export TARGET_KERNEL_VERSION=4.4
 fi
 export PRODUCT_DEFAULT_DEV_CERTIFICATE=vendor/lineage-priv/keys/releasekey
 export WITH_GMS=false
+export WITH_GAPPS=false
+export TARGET_BUILD_GAPPS=false
+
+export PRODUCT_SYSTEM_SERVER_COMPILER_FILTER=quicken
+export PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER=quicken
+export PRODUCT_ALWAYS_PREOPT_EXTRACTED_APK=false
+export DONT_DEXPREOPT_PREBUILTS=true
 
 exp_gapps () {
 export USE_GAPPS=false
 }
 
 get_system () {
-[ ! -e out/target/product/lavender/system.img ] && make systemimage -j16
+[ ! -e out/target/product/lavender/system.img ] && make systemimage #-j16
 [ ! -e out/target/product/lavender/system.img ] && tg "System.img buid failed!" && exit 0
 tg "System.img Build Succeed!"
 echo "- Zipping system"
@@ -36,7 +48,7 @@ upload *_system.zip
 }
 
 get_product () {
-[ ! -e out/target/product/lavender/product.img ] && make productimage -j16
+[ ! -e out/target/product/lavender/product.img ] && make productimage #-j16
 [ ! -e out/target/product/lavender/product.img ] && tg "Product.img buid failed!" && exit 0
 tg "Product.img Build Succeed!"
 echo "- Zipping product"
@@ -45,7 +57,7 @@ upload *_product.zip
 }
 
 get_system_ext () {
-[ ! -e out/target/product/lavender/system_ext.img ] && make systemextimage -j16
+[ ! -e out/target/product/lavender/system_ext.img ] && make systemextimage #-j16
 [ ! -e out/target/product/lavender/system_ext.img ] && tg "System_ext.img buid failed!" && exit 0
 tg "System_ext.img Build Succeed!"
 echo "- Zipping system_ext"
@@ -54,7 +66,7 @@ upload *_system_ext.zip
 }
 
 get_vendor () {
-[ ! -e out/target/product/lavender/vendor.img ] && make vendorimage -j16
+[ ! -e out/target/product/lavender/vendor.img ] && make vendorimage #-j16
 [ ! -e out/target/product/lavender/vendor.img ] && tg "Vendor.img buid failed!" && exit 0
 tg "Vendor.img Build Succeed!"
 echo "- Zipping vendor"
@@ -63,7 +75,7 @@ upload *_vendor.zip
 }
 
 get_odm () {
-[ ! -e out/target/product/lavender/odm.img ] && make odmimage -j16
+[ ! -e out/target/product/lavender/odm.img ] && make odmimage #-j16
 [ ! -e out/target/product/lavender/odm.img ] && tg "odm.img buid failed!" && exit 0
 tg "odm.img Build Succeed!"
 echo "- Zipping odm"
@@ -72,7 +84,7 @@ upload *_odm.zip
 }
 
 get_boot () {
-[ ! -e out/target/product/lavender/boot.img ] && make bootimage -j16
+[ ! -e out/target/product/lavender/boot.img ] && make bootimage #-j16
 [ ! -e out/target/product/lavender/boot.img ] && tg "Boot.img buid failed!" && exit 0
 tg "Boot.img Build Succeed!"
 echo "- Zipping boot"
@@ -143,8 +155,8 @@ split_build () {
 case "$build_type" in
 		 c|C|s|S)
 		 # part 1
-		 get_product
-		 get_system_ext
+		 #get_product
+		 #get_system_ext
 		 get_system
 		 ;;
 		 *)
@@ -158,7 +170,14 @@ esac
 }
 
 compile_plox () {
-#split_build
+split_build
 #final_zip
-m bacon -j16
+#export USE_CCACHE=0
+
+#m bacon -j6
+
+# manually set sleep kill for R builds
+#m bacon -j16 &
+#sleep 45m
+#kill %1
 }
