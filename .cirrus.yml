@@ -19,3 +19,4 @@ task:
       - cd /tmp/kernel
       - bash build.sh --KSU --RDP
       - bash build.sh --KSU --HEVC
+      - bash build.sh --KSU --Legacy
