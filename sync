@@ -74,19 +74,20 @@ git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_xiaomi_sdm
 #git clone --depth=1 https://github.com/wHo-EM-i/bionic -b vos13
 
 # Hals
-#if [ $K19 == 1 ]; then
-#rm -rf hardware/qcom-caf/sdm660
+rm -rf hardware/qcom-caf/sdm660
+sed -i 's|QCOM_HARDWARE_VARIANT := msm8998|QCOM_HARDWARE_VARIANT := sdm660|' vendor/*/config/B*Qcom.mk
+if [ $K19 == 1 ]; then
 #sed -i 's|QCOM_HARDWARE_VARIANT := msm8998|QCOM_HARDWARE_VARIANT := sdm660|' vendor/*/config/B*Qcom.mk
-#git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_audio hardware/qcom-caf/sdm660/audio -b 11-caf-sdm660
-#git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_media hardware/qcom-caf/sdm660/media -b 11-caf-sdm660
-#git clone --depth=1 https://github.com/wHo-EM-i/hardware_qcom_display hardware/qcom-caf/sdm660/display -b 11-caf-sdm660
-#else
+git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_audio hardware/qcom-caf/sdm660/audio -b 11-caf-sdm660
+git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_media hardware/qcom-caf/sdm660/media -b 11-caf-sdm660
+git clone --depth=1 https://github.com/wHo-EM-i/hardware_qcom_display hardware/qcom-caf/sdm660/display -b 11-caf-sdm660
+else
 #sed -i 's|QCOM_HARDWARE_VARIANT := sdm660|QCOM_HARDWARE_VARIANT := msm8998|' vendor/*/config/B*Qcom.mk
-#git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_audio hardware/qcom-caf/sdm660/audio -b sdm660-4.4
-#git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_media hardware/qcom-caf/sdm660/media -b sdm660-4.4
-#git clone --depth=1 https://github.com/wHo-EM-i/hardware_qcom_display hardware/qcom-caf/sdm660/display -b 11-sdm660
-#fi
-#git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_camera hardware/qcom-caf/sdm660/camera -b sdm660-9.2.r1
+git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_audio hardware/qcom-caf/sdm660/audio -b sdm660-4.4
+git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_media hardware/qcom-caf/sdm660/media -b sdm660-4.4
+git clone --depth=1 https://github.com/wHo-EM-i/hardware_qcom_display hardware/qcom-caf/sdm660/display -b 11-9.2.r1
+fi
+git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_camera hardware/qcom-caf/sdm660/camera -b sdm660-9.2.r1
 
 # keys
 #git clone --depth=1 https://github.com/Los-Ext/vendor_lineage-priv_keys vendor/lineage-priv/keys
@@ -126,6 +127,10 @@ git -C frameworks/base cherry-pick d8be6329bcdfc9f384a350d04008f7e6853512eb^..3b
 # PPU
 git -C frameworks/base cherry-pick 87b4c62e3cbab2da36656dfddaf750aa1e008691
 #git clone --depth=1 https://gitlab.com/Project-Nexus/nexus-clang.git prebuilts/clang/host/linux-x86/custom-clang -b nexus-14
+
+# qti powerhal
+rm -rf /tmp/rom/vendor/qcom/opensource/power
+git clone --depth=1 https://github.com/JunkYard-XD/android_vendor_qcom_opensource_power vendor/qcom/opensource/power -b 11.0
 
 git config --global user.name "$CIRRUS_REPO_OWNER"
 echo "switching account" && gh auth logout
