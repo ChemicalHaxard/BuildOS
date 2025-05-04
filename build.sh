@@ -2,19 +2,19 @@
 . build/envsetup.sh
 # RBE
 . /tmp/ci/rbe
-#export NINJA_REMOTE_NUM_JOBS=150
+export NINJA_REMOTE_NUM_JOBS=150
 export RBE_CXX_LINKS_EXEC_STRATEGY=local
 export RBE_METALAVA_EXEC_STRATEGY=local
-export RBE_LOG_LEVEL=debug
+#export RBE_LOG_LEVEL=debug
 export USE_CCACHE=0
 env | grep RBE
-lunch lineage_lavender-userdebug
+lunch lineage_lavender-user
 
 build_gapps=0
 
 # export variable here
 export TZ=Asia/Kolkata
-export SELINUX_IGNORE_NEVERALLOWS=true
+#export SELINUX_IGNORE_NEVERALLOWS=true
 export RELAX_USES_LIBRARY_CHECK=true
 export WITH_GMS=false
 export USE_CCACHE=0
