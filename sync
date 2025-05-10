@@ -38,18 +38,19 @@ repo init --depth=1 --no-repo-verify -u https://github.com/JunkYard-XD/manifest.
 # Sync source without unnecessary messages, try with -j30 first, if fails, it will try again
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j16 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10
 
-#rm -rf system/bt
-#git clone --single-branch https://github.com/crdroid-security/android_system_bt -b 11.0 system/bt && git -C system/bt reset --hard HEAD~3
-
 # tree
 if [ $K19 == 1 ]; then
-git clone --depth=1 --single-branch https://github.com/ImSpiDy/sonix_kernel_sdm660 kernel/xiaomi/sdm660 -b 11
-#git -C kernel/xiaomi/sdm660 revert --no-edit 82c22783962ef202b2a6df7f09d47616f6f45c07
-#git -C kernel/xiaomi/sdm660 revert --no-edit edf92cc79b545136824f212490108846b27af5fc
-#sed -i '/CONFIG_INITRAMFS_IGNORE_SKIP_FLAG=/s/.*/CONFIG_INITRAMFS_IGNORE_SKIP_FLAG=n/' kernel/xiaomi/sdm660/arch/arm64/configs/lavender_defconfig
-#hevc fix
-curl https://github.com/Atom-X-Devs/scarlet_xiaomi_sdm660/commit/572d01152a3ad83fc401c1af19adbdf39fe8a7e1.patch | git -C kernel/xiaomi/sdm660 am
-#git -C kernel/xiaomi/sdm660 apply drop_rdp.p
+git clone --depth=1 --single-branch https://github.com/ImSpiDy/sonix_kernel_sdm660 kernel/xiaomi/sdm660 -b sonix
+cd kernel/xiaomi/sdm660
+echo "Adding CONFIG_QCA_CLD_WLAN_LEGACY=y"
+echo "CONFIG_QCA_CLD_WLAN_LEGACY=y" >> arch/arm64/configs/lavender_defconfig
+sed -i '/CONFIG_INITRAMFS_IGNORE_SKIP_FLAG=/s/.*/CONFIG_INITRAMFS_IGNORE_SKIP_FLAG=n/' arch/arm64/configs/lavender_defconfig
+echo "Dropping RDP"
+git apply drop_rdp.p
+#bash ksu.sh
+#echo "CONFIG_KSU=y" >> arch/arm64/configs/lavender_defconfig
+#echo "CONFIG_OVERLAY_FS=y" >> arch/arm64/configs/lavender_defconfig
+cd /tmp/rom
 else
 git clone --depth=1 --single-branch https://github.com/ImSpiDy/kernel_xiaomi_lavender-4.4 kernel/xiaomi/sdm660 -b snx-qti
 git -C kernel/xiaomi/sdm660 apply QTI_HAPTICS.p
@@ -98,6 +99,7 @@ echo "-include vendor/lineage-priv/keys/keys.mk" >> vendor/*/config/common.mk
 rm -rf device/qcom/sepolicy-legacy-um
 git clone https://github.com/raiyanbinmohsin/device_qcom_sepolicy-legacy-um device/qcom/sepolicy-legacy-um
 git -C device/qcom/sepolicy-legacy-um revert -n b63cd988f7e7df3d54a97285f354476760edf7ae
+
 # build/soong
 curl https://github.com/wHo-EM-i/build_soong/commit/42df79cee0b1eec108a71affcf3ae841613b9a0c.patch | git -C build/soong am
 #curl https://github.com/wHo-EM-i/build_soong/commit/809cf30f6ee3183d630c40b5eef375fe1fd965a7.patch | git -C build/soong am
@@ -126,7 +128,7 @@ git -C frameworks/base fetch https://github.com/JunkYard-XD/android_frameworks_b
 git -C frameworks/base cherry-pick d8be6329bcdfc9f384a350d04008f7e6853512eb^..3b6a25be3ad541488105bea9d7acdefae23f88e1
 # PPU
 git -C frameworks/base cherry-pick 87b4c62e3cbab2da36656dfddaf750aa1e008691
-#git clone --depth=1 https://gitlab.com/Project-Nexus/nexus-clang.git prebuilts/clang/host/linux-x86/custom-clang -b nexus-14
+git clone --depth=1 --single-branch https://gitlab.com/Project-Nexus/nexus-clang.git prebuilts/clang/host/linux-x86/custom-clang -b nexus-14
 
 # qti powerhal
 rm -rf /tmp/rom/vendor/qcom/opensource/power
