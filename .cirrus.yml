@@ -10,7 +10,7 @@ env: # Environment variables to pass to all tasks
     git_cookies: 0
     du_key: 0 # disable dev_upload
     REAL_REPO_OWNER: "ENCRYPTED[!2d216e11d390b24637945eead7a7daa9d3ae3cb0907ae24c3763a05f725187ac5836f88fb3e6e71a180eea6f440ac023!]" # main id
-    K19: 1 # kernel 4.19 or 4.4
+    K19: 0 # kernel 4.19 or 4.4
 
 # store information about git here
     gmail: ehteshammalik18998@gmail.com

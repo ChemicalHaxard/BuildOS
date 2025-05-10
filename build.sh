@@ -14,6 +14,7 @@ lunch xdroid_lavender-userdebug
 build_gapps=0
 
 # export variable here
+export TARGET_KERNEL_VERSION=4.4
 export TZ=Asia/Kolkata
 export SELINUX_IGNORE_NEVERALLOWS=true
 export RELAX_USES_LIBRARY_CHECK=true

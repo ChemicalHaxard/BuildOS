@@ -55,13 +55,13 @@ git clone --depth=1 --single-branch https://github.com/ImSpiDy/kernel_xiaomi_lav
 git -C kernel/xiaomi/sdm660 apply QTI_HAPTICS.p
 fi
 git clone https://github.com/ImSpiDy/device_xiaomi_lavender device/xiaomi/lavender -b 11
-git clone --depth=1 https://github.com/ImSpiDy/device_xiaomi_sdm660-common device/xiaomi/sdm660-common -b 11-CLO
+git clone --depth=1 https://github.com/ImSpiDy/device_xiaomi_sdm660-common device/xiaomi/sdm660-common -b 11-CLO-4.4
 #xd's skill issue
 echo "BUILD_BROKEN_DUP_RULES := true" >> device/xiaomi/sdm660-common/Board*.mk
 echo "BUILD_BROKEN_DUP_RULES := true" >> device/xiaomi/lavender/Board*.mk
 
 git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_lavender vendor/xiaomi/lavender -b 11
-git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_xiaomi_sdm660-common vendor/xiaomi/sdm660-common -b 11
+git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_xiaomi_sdm660-common vendor/xiaomi/sdm660-common -b 11-4.4
 
 #rm -rf hardware/xiaomi
 #git clone --depth=1 https://github.com/arrowos-devices/android_hardware_xiaomi hardware/xiaomi -b arrow-13.1
