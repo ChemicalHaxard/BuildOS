@@ -3,13 +3,11 @@
 . build/envsetup.sh
 # RBE
 . /tmp/ci/rbe
-#export OUT_DIR=out
-#export RBE_OUT_DIR=out
 export RBE_CXX_LINKS_EXEC_STRATEGY=local
 export RBE_METALAVA_EXEC_STRATEGY=local
 export RBE_LOG_LEVEL=debug
 env | grep RBE
-lunch voltage_lavender-userdebug
+lunch banana_lavender-user
 
 build_gapps=0
 
@@ -22,6 +20,7 @@ export TARGET_KERNEL_VERSION=4.19
 elif [ $K19 == 0 ]; then
 export TARGET_KERNEL_VERSION=4.4
 fi
+#export TARGET_KERNEL_CLANG_VERSION=r487747
 export PRODUCT_DEFAULT_DEV_CERTIFICATE=vendor/lineage-priv/keys/releasekey
 export WITH_GMS=false
 
@@ -163,13 +162,21 @@ esac
 compile_plox () {
 #split_build
 #final_zip
-m productimage
-m systemextimage
-m systemimage
-m bacon #-j16
+#m productimage
+#m systemextimage
+#m systemimage
+m banana #-j16
+
+# 10min break for quick fix
+if [ -e "/tmp/rom/out/error.log" ] && [ ! -e out/target/product/*/*.zip ]; then
+sleep 10m
+git -C device/xiaomi/sdm660-common pull -r
+git -C device/xiaomi/lavender pull -r
+m banana #-j16
+fi
 
 # KSU bc -_-
 if [ -e "/tmp/rom/out/error.log" ] && [ ! -e out/target/product/*/*.zip ] && [ $(cat /tmp/rom/out/error.log | grep -o -e 'KernelSU' -e 'FAILED: ' | head -n 1) ]; then
-m bacon #-j16
+m banana #-j16
 fi
 }
