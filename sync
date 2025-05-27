@@ -32,8 +32,7 @@ login_main # main id
 git config --global credential.helper '!gh auth git-credential'
 
 # Sync source
-#https://github.com/crdroid-security/android.git -b 11.0
-repo init --depth=1 --no-repo-verify -u https://github.com/JunkYard-XD/manifest.git -b 11 --git-lfs -g default,-mips,-darwin,-notdefault
+repo init --depth=1 --no-repo-verify -u https://github.com/xdCLO/xd_manifest -b eleven -g default,-mips,-darwin,-notdefault
 
 # Sync source without unnecessary messages, try with -j30 first, if fails, it will try again
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j16 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10
@@ -56,7 +55,10 @@ git clone --depth=1 --single-branch https://github.com/ImSpiDy/kernel_xiaomi_lav
 git -C kernel/xiaomi/sdm660 apply QTI_HAPTICS.p
 fi
 git clone https://github.com/ImSpiDy/device_xiaomi_lavender device/xiaomi/lavender -b 11
-git clone --depth=1 https://github.com/ImSpiDy/device_xiaomi_sdm660-common device/xiaomi/sdm660-common -b 11
+git clone --depth=1 https://github.com/ImSpiDy/device_xiaomi_sdm660-common device/xiaomi/sdm660-common -b 11-CLO
+#xd's skill issue
+echo "BUILD_BROKEN_DUP_RULES := true" >> device/xiaomi/sdm660-common/Board*.mk
+echo "BUILD_BROKEN_DUP_RULES := true" >> device/xiaomi/lavender/Board*.mk
 
 git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_lavender vendor/xiaomi/lavender -b 11
 git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_xiaomi_sdm660-common vendor/xiaomi/sdm660-common -b 11
@@ -96,15 +98,17 @@ git clone https://github.com/Nub-XD/vendor_lavender-priv_keys vendor/lineage-pri
 echo "-include vendor/lineage-priv/keys/keys.mk" >> vendor/*/config/common.mk
 
 #patch
-rm -rf device/qcom/sepolicy-legacy-um
-git clone https://github.com/raiyanbinmohsin/device_qcom_sepolicy-legacy-um device/qcom/sepolicy-legacy-um
-git -C device/qcom/sepolicy-legacy-um revert -n b63cd988f7e7df3d54a97285f354476760edf7ae
+#rm -rf device/qcom/sepolicy-legacy-um
+#git clone https://github.com/raiyanbinmohsin/device_qcom_sepolicy-legacy-um device/qcom/sepolicy-legacy-um
+#git -C device/qcom/sepolicy-legacy-um revert -n b63cd988f7e7df3d54a97285f354476760edf7ae
 
 # build/soong
 curl https://github.com/wHo-EM-i/build_soong/commit/42df79cee0b1eec108a71affcf3ae841613b9a0c.patch | git -C build/soong am
 #curl https://github.com/wHo-EM-i/build_soong/commit/809cf30f6ee3183d630c40b5eef375fe1fd965a7.patch | git -C build/soong am
 curl https://github.com/wHo-EM-i/build_soong/commit/1f4a7bed507a34ca6e46a5ab5b4017899133cab0.patch | git -C build/soong am
-curl https://github.com/wHo-EM-i/build_soong/commit/0a769f9d183a692b9fd56dabd77aec7b2a80d980.patch | git -C build/soong am
+curl https://github.com/wHo-EM-i/build_soong/commit/575a3992f380ad697cb2e44aaf13d634f64b1d24.patch | git -C build/soong am
+curl https://github.com/wHo-EM-i/build_soong/commit/be690c82c40516a51f85e5c81b0457f3975ceba3.patch | git -C build/soong am
+
 # bionic
 #curl https://github.com/crdroidandroid/android_bionic/commit/1bc81a661fac286b709f6c424e260ff863dfad5c.patch | git -C bionic am
 #curl https://github.com/crdroidandroid/android_bionic/commit/35990d0980cacda546da37870d26f19058f2ce17.patch | git -C bionic am
@@ -123,16 +127,18 @@ curl https://github.com/wHo-EM-i/build_soong/commit/0a769f9d183a692b9fd56dabd77a
 
 # hax
 # fwb
+curl https://github.com/xdCLO-Enhanced/xd_frameworks_base/commit/efb19839c2215e4d087d9286b76c73c8ae15c701.patch | git -C frameworks/base am
+
 #rm -rf frameworks/base; git clone --depth=1 https://github.com/JunkYard-XD/android_frameworks_base frameworks/base -b 11.0
-git -C frameworks/base fetch https://github.com/JunkYard-XD/android_frameworks_base -t 11.0
-git -C frameworks/base cherry-pick d8be6329bcdfc9f384a350d04008f7e6853512eb^..3b6a25be3ad541488105bea9d7acdefae23f88e1
+#git -C frameworks/base fetch https://github.com/JunkYard-XD/android_frameworks_base -t 11.0
+#git -C frameworks/base cherry-pick d8be6329bcdfc9f384a350d04008f7e6853512eb^..3b6a25be3ad541488105bea9d7acdefae23f88e1
 # PPU
-git -C frameworks/base cherry-pick 87b4c62e3cbab2da36656dfddaf750aa1e008691
+#git -C frameworks/base cherry-pick 87b4c62e3cbab2da36656dfddaf750aa1e008691
 git clone --depth=1 --single-branch https://gitlab.com/Project-Nexus/nexus-clang.git prebuilts/clang/host/linux-x86/custom-clang -b nexus-14
 
 # qti powerhal
-rm -rf /tmp/rom/vendor/qcom/opensource/power
-git clone --depth=1 https://github.com/JunkYard-XD/android_vendor_qcom_opensource_power vendor/qcom/opensource/power -b 11.0
+#rm -rf /tmp/rom/vendor/qcom/opensource/power
+#git clone --depth=1 https://github.com/JunkYard-XD/android_vendor_qcom_opensource_power vendor/qcom/opensource/power -b 11.0
 
 git config --global user.name "$CIRRUS_REPO_OWNER"
 echo "switching account" && gh auth logout
@@ -147,47 +153,5 @@ Status: $progress"
 
 echo "$(($SECONDS / 60))" > /tmp/sync_time.txt
 
-
-dload_out () {
-tg "Downloading OUT backup"
-down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.001
-down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.002
-down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.003
-down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.004
-down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.005
-down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.006
-down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.007
-down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.008
-down $cache_link/releases/download/${rom_name}/${rom_name}-${branch_name}_out.zip.009
-
-# Extract out so ci can use it
-if [ -e *_out.zip.001 ]; then
-echo "• Extracting OUT •"
-time 7za x *_out.zip.001
-fi
-if [ -e out.tar.gz ]; then
-time tar xf out.tar.gz
-fi
-
-if [ -e *_out.zip.001 ]; then
-tg "$rom_name out downloaded successfully!
-Total Size: $(du -sh ${PWD}/out | cut -d - -f 1 | cut -d / -f 1)
-Time Took: $(($SECONDS / 60)) minute(s) and $(($SECONDS % 60)) second(s).
-Status: $progress"
-else
-echo "Skipping OUT Download on 1st build..!"
-fi
-}
-
-#check_build_type
-#case "$build_type" in
-#		 C|c)
-#		 tg "Skipping OUT Download on Clean build"
-#		 ;; # else
-#		 *)
-#		 #dload_out
-#esac
-
-rm -rf *_out.zip.* out.tar.gz
 
 neofetch
