@@ -26,4 +26,30 @@ export GAPPS=true
 
 compile_plox () {
 make bacon -j16
+
+# 5min break for quick fix
+if [ -e "/tmp/rom/out/error.log" ] && [ ! -e out/target/product/*/*.zip ]; then
+push_log
+tg "- Push your fix asap...!"
+sleep 5m
+git -C device/xiaomi/sdm660-common pull -r
+git -C device/xiaomi/lavender pull -r
+git -C device/qcom/sepolicy-legacy-um pull -r
+make bacon -j16
+fi
+# again
+if [ -e "/tmp/rom/out/error.log" ] && [ ! -e out/target/product/*/*.zip ]; then
+push_log
+tg "- Push your fix asap...!"
+sleep 5m
+git -C device/xiaomi/sdm660-common pull -r
+git -C device/xiaomi/lavender pull -r
+git -C device/qcom/sepolicy-legacy-um pull -r
+make bacon -j16
+fi
+
+# KSU bc -_-
+if [ -e "/tmp/rom/out/error.log" ] && [ ! -e out/target/product/*/*.zip ] && [ $(cat /tmp/rom/out/error.log | grep -o -e 'KernelSU' -e 'FAILED: ' | head -n 1) ]; then
+make bacon -j16
+fi
 }

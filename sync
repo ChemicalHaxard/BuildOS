@@ -32,7 +32,7 @@ login_main # main id
 git config --global credential.helper '!gh auth git-credential'
 
 # Sync source
-repo init --depth=1 --no-repo-verify -u https://github.com/LineageOS-Revived/android -b lineage-17.1 --git-lfs -g default,-mips,-darwin,-notdefault
+repo init --depth=1 --no-repo-verify -u https://github.com/JunkYard-XD/manifest -b 10 --git-lfs -g default,-mips,-darwin,-notdefault
 
 # Sync source without unnecessary messages, try with -j16 first, if fails, it will try again
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j16 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10
@@ -45,10 +45,14 @@ git clone https://github.com/ImSpiDy/device_xiaomi_lavender device/xiaomi/lavend
 git clone --depth=1 https://github.com/ImSpiDy/device_xiaomi_sdm660-common device/xiaomi/sdm660-common -b 10
 git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_lavender vendor/xiaomi/lavender -b 10
 git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_xiaomi_sdm660-common vendor/xiaomi/sdm660-common -b 10
-git clone --depth=1 --single-branch https://github.com/ImSpiDy/kernel_xiaomi_lavender-4.4 kernel/xiaomi/lavender -b snx-qti
-git -C kernel/xiaomi/lavender apply QTI_HAPTICS.p
+git clone --depth=1 --single-branch https://github.com/ImSpiDy/kernel_xiaomi_lavender-4.4 kernel/xiaomi/lavender -b snx-ksu
+#git -C kernel/xiaomi/lavender apply QTI_HAPTICS.p
 
-rm -rf device/xiaomi/sdm660-common/vibrator/*.bp
+# look for dup vibrator
+rm -rf vendor/qcom/opensource/vibrat*
+
+rm -rf device/qcom/sepolicy-legacy-um
+git clone --depth=1 --single-branch https://github.com/wHo-EM-i/device_qcom_sepolicy-legacy-um device/qcom/sepolicy-legacy-um -b los10
 
 # extra stuff
 #git clone --depth=1 https://github.com/LineageOS/android_hardware_lineage_livedisplay hardware/lineage/livedisplay -b lineage-17.1
@@ -63,16 +67,15 @@ rm -rf /tmp/rom/hardware/qcom-caf/msm8998/media
 git clone --depth=1 https://github.com/JunkYard-XD/android_hardware_qcom_display /tmp/rom/hardware/qcom-caf/msm8998/display -b 10-msm8998
 git clone --depth=1 https://github.com/JunkYard-XD/android_hardware_qcom_audio /tmp/rom/hardware/qcom-caf/msm8998/audio -b 10-msm8998
 git clone --depth=1 https://github.com/JunkYard-XD/android_hardware_qcom_media /tmp/rom/hardware/qcom-caf/msm8998/media -b 10-msm8998
-git -C frameworks/base fetch https://github.com/JunkYard-XD/android_frameworks_base -t lineage-17.1-old
-git -C frameworks/base cherry-pick b618a6363e80581046295b2921e695f2352115f1
+#git -C frameworks/base fetch https://github.com/JunkYard-XD/android_frameworks_base -t lineage-17.1-old
+#git -C frameworks/base cherry-pick b618a6363e80581046295b2921e695f2352115f1
 #git -C frameworks/base cherry-pick 33304d2d3a3f9e5086c0a00fe5e4478e6668e786
 git clone --depth=1 https://github.com/JunkYard-XD/vendor_lavender-priv_keys vendor/lineage-priv/keys
 echo "-include vendor/lineage-priv/keys/keys.mk" >> vendor/*/config/common.mk
 #git clone --depth=1 https://gitlab.com/ImSpiDy/vendor_gapps vendor/gapps
 
 # Patch
-curl https://github.com/JunkYard-XD/android_vendor/commit/9a26c681fb11d932e44631565622e7b307e61aae.patch | git -C vendor/lineage am
-#cd /tmp/rom/frameworks/base
+#curl https://github.com/JunkYard-XD/android_vendor/commit/9a26c681fb11d932e44631565622e7b307e61aae.patch | git -C vendor/lineage am
 #curl https://github.com/Nub-XD/android_frameworks_base/commit/ebc89191b7bf6656eab876e181986aa2054542c5.patch | git am
 #curl https://github.com/Nub-XD/android_frameworks_base/commit/19b3d416a4034659bc949bae828422b07f40f5a3.patch | git am
 #cd /tmp/rom/build/make && curl https://github.com/Nub-XD/android_build/commit/5d43d44a1fb462f0feca4f6deefe4a0e8a5af60a.patch | git am
