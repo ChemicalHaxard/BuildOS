@@ -32,58 +32,47 @@ login_main # main id
 git config --global credential.helper '!gh auth git-credential'
 
 # Sync source
-repo init --depth=1 --no-repo-verify -u https://github.com/JunkYard-XD/manifest -b 10 --git-lfs -g default,-mips,-darwin,-notdefault
+repo init --depth=1 --no-repo-verify -u https://github.com/LineageOS-UL/android -b lineage-19.1 --git-lfs -g default,-mips,-darwin,-notdefault
 
 # Sync source without unnecessary messages, try with -j16 first, if fails, it will try again
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j16 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j10
 
-# tree
-#git clone --depth=1 https://github.com/ImSpiDy/device_xiaomi_lavender-4.4 device/xiaomi/lavender -b 10R
-#git clone --depth=1 https://github.com/ImSpiDy/vendor_xiaomi_lavender-4.4 vendor/xiaomi/lavender -b 10R
-
-git clone https://github.com/ImSpiDy/device_xiaomi_lavender device/xiaomi/lavender -b 10
-git clone --depth=1 https://github.com/ImSpiDy/device_xiaomi_sdm660-common device/xiaomi/sdm660-common -b 10
-git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_lavender vendor/xiaomi/lavender -b 10
-git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_xiaomi_sdm660-common vendor/xiaomi/sdm660-common -b 10
-git clone --depth=1 --single-branch https://github.com/ImSpiDy/kernel_xiaomi_lavender-4.4 kernel/xiaomi/lavender -b snx-ksu
-#git -C kernel/xiaomi/lavender apply QTI_HAPTICS.p
-
-# look for dup vibrator
-rm -rf vendor/qcom/opensource/vibrat*
-
-rm -rf device/qcom/sepolicy-legacy-um
-git clone --depth=1 --single-branch https://github.com/wHo-EM-i/device_qcom_sepolicy-legacy-um device/qcom/sepolicy-legacy-um -b los10
+git clone https://github.com/ImSpiDy/device_xiaomi_lavender device/xiaomi/lavender -b 12.1
+git clone --depth=1 https://github.com/ImSpiDy/device_xiaomi_sdm660-common device/xiaomi/sdm660-common -b 12.1
+git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_lavender vendor/xiaomi/lavender -b 11
+git clone --depth=1 --single-branch https://github.com/ImSpiDy/vendor_xiaomi_sdm660-common vendor/xiaomi/sdm660-common -b 11
+git clone --depth=1 --single-branch https://github.com/ImSpiDy/sonix_kernel_sdm660 kernel/xiaomi/sdm660 -b sonix
+git -C kernel/xiaomi/sdm660 apply old-rdp.p
 
 # extra stuff
-#git clone --depth=1 https://github.com/LineageOS/android_hardware_lineage_livedisplay hardware/lineage/livedisplay -b lineage-17.1
-git clone --depth=1 https://github.com/JunkYard-XD/android_packages_apps_Dirac packages/apps/Dirac -b 10
-#git clone --depth=1 https://github.com/Nub-XD/platform_vendor_lawnchair vendor/lawnchair -b 10
 git clone --depth=1 --single-branch https://gitlab.com/Project-Nexus/nexus-clang.git /tmp/rom/prebuilts/clang/host/linux-x86/custom-clang -b nexus-14
 
 # soc hals
-rm -rf /tmp/rom/hardware/qcom-caf/msm8998/display
-rm -rf /tmp/rom/hardware/qcom-caf/msm8998/audio
-rm -rf /tmp/rom/hardware/qcom-caf/msm8998/media
-git clone --depth=1 https://github.com/JunkYard-XD/android_hardware_qcom_display /tmp/rom/hardware/qcom-caf/msm8998/display -b 10-msm8998
-git clone --depth=1 https://github.com/JunkYard-XD/android_hardware_qcom_audio /tmp/rom/hardware/qcom-caf/msm8998/audio -b 10-msm8998
-git clone --depth=1 https://github.com/JunkYard-XD/android_hardware_qcom_media /tmp/rom/hardware/qcom-caf/msm8998/media -b 10-msm8998
-#git -C frameworks/base fetch https://github.com/JunkYard-XD/android_frameworks_base -t lineage-17.1-old
-#git -C frameworks/base cherry-pick b618a6363e80581046295b2921e695f2352115f1
-#git -C frameworks/base cherry-pick 33304d2d3a3f9e5086c0a00fe5e4478e6668e786
-git clone --depth=1 https://github.com/JunkYard-XD/vendor_lavender-priv_keys vendor/lineage-priv/keys
-echo "-include vendor/lineage-priv/keys/keys.mk" >> vendor/*/config/common.mk
-#git clone --depth=1 https://gitlab.com/ImSpiDy/vendor_gapps vendor/gapps
+rm -rf /tmp/rom/hardware/qcom-caf/sdm660/display
+rm -rf /tmp/rom/hardware/qcom-caf/sdm660/audio
+rm -rf /tmp/rom/hardware/qcom-caf/sdm660/media
+git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_audio hardware/qcom-caf/sdm660/audio -b 12-caf-sdm660
+git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_media hardware/qcom-caf/sdm660/media -b 12-caf-sdm660
+git clone --depth=1 https://github.com/wHo-EM-i/hardware_qcom_display hardware/qcom-caf/sdm660/display -b 12-caf-sdm660
+
+git clone --depth=1 https://github.com/wHo-EM-i/android_hardware_qcom_camera hardware/qcom-caf/sdm660/camera -b sdm660-9.2.r1
+
+# build/soong
+#curl https://github.com/wHo-EM-i/build_soong/commit/42df79cee0b1eec108a71affcf3ae841613b9a0c.patch | git -C build/soong am
+#curl https://github.com/wHo-EM-i/build_soong/commit/809cf30f6ee3183d630c40b5eef375fe1fd965a7.patch | git -C build/soong am
+#curl https://github.com/wHo-EM-i/build_soong/commit/1f4a7bed507a34ca6e46a5ab5b4017899133cab0.patch | git -C build/soong am
+#curl https://github.com/wHo-EM-i/build_soong/commit/0a769f9d183a692b9fd56dabd77aec7b2a80d980.patch | git -C build/soong am
+git -C build/soong fetch https://github.com/wHo-EM-i/build_soong -t 12.1
+git -C build/soong cherry-pick 68f350e53d7b82d412824b694acda4859bb97547^..b7cebda77a842ab60bccac07257ea2347846fd16
 
 # Patch
 #curl https://github.com/JunkYard-XD/android_vendor/commit/9a26c681fb11d932e44631565622e7b307e61aae.patch | git -C vendor/lineage am
-#curl https://github.com/Nub-XD/android_frameworks_base/commit/ebc89191b7bf6656eab876e181986aa2054542c5.patch | git am
-#curl https://github.com/Nub-XD/android_frameworks_base/commit/19b3d416a4034659bc949bae828422b07f40f5a3.patch | git am
-#cd /tmp/rom/build/make && curl https://github.com/Nub-XD/android_build/commit/5d43d44a1fb462f0feca4f6deefe4a0e8a5af60a.patch | git am
-#cd /tmp/rom/vendor/qcom/opensource/power && curl https://github.com/Nub-XD/android_vendor_qcom_opensource_power/commit/9108d8ecd3763b7c0ea17ec6aecf62645b4fa175.patch | git am
-#rm -rf vendor/lineage && git clone https://github.com/JunkYard-XD/android_vendor vendor/lineage -b lineage-17.1-old
 
-# patch
-#cd /tmp/rom/packages/apps/ManagedProvisioning && curl https://github.com/Nub-XD/android_packages_apps_ManagedProvisioning/commit/b0aaec6871bea7a512984f1535ff4146aadb8049.patch | git am
+curl https://github.com/droid-legacy/android_build_make/commit/9f8049846eb61be7daadeb633f8207b27f00d330.patch | git -C build/make am
+
+# qti powerhal
+rm -rf /tmp/rom/vendor/qcom/opensource/power
+git clone --depth=1 https://github.com/JunkYard-XD/android_vendor_qcom_opensource_power vendor/qcom/opensource/power -b 12.1
 
 git config --global user.name "$CIRRUS_REPO_OWNER"
 echo "switching account" && gh auth logout
