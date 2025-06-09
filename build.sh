@@ -6,16 +6,16 @@
 export RBE_CXX_LINKS_EXEC_STRATEGY=local
 #export RBE_METALAVA_EXEC_STRATEGY=local
 export RBE_LOG_LEVEL=debug
-#export USE_CCACHE=0
-lunch lineage_lavender-userdebug
+export USE_CCACHE=0
+lunch lineage_lavender-user
 
 # export variable here
 export TZ=Asia/Kolkata
-export SELINUX_IGNORE_NEVERALLOWS=true
+#export SELINUX_IGNORE_NEVERALLOWS=true
 export RELAX_USES_LIBRARY_CHECK=true
 export TARGET_KERNEL_VERSION=4.19
 export PRODUCT_DEFAULT_DEV_CERTIFICATE=vendor/lineage-priv/keys/releasekey
-#export USE_CCACHE=0
+export USE_CCACHE=0
 
 build_gapps=0
 export WITH_GMS=false
@@ -28,32 +28,21 @@ export USE_GAPPS=false
 compile_plox () {
 make bacon -j16
 
+# KSU bc -_-
+if [ -e "/tmp/rom/out/error.log" ] && [ ! -e out/target/product/*/*.zip ] && [ $(cat /tmp/rom/out/error.log | grep -o -e 'KernelSU' | head -n 1) ]; then
+make bacon -j16
+fi
+
 # 5min break for quick fix
 login_main
 if [ -e "/tmp/rom/out/error.log" ] && [ ! -e out/target/product/*/*.zip ]; then
 push_log
 tg "- Push your fix asap...!"
 sleep 5m
-git -C device/xiaomi/sdm660-common fetch
 git -C device/xiaomi/sdm660-common pull -r
-git -C device/xiaomi/lavender fetch
 git -C device/xiaomi/lavender pull -r
-make bacon -j16
-fi
-# again
-if [ -e "/tmp/rom/out/error.log" ] && [ ! -e out/target/product/*/*.zip ]; then
-push_log
-tg "- Push your fix asap...!"
-sleep 5m
-git -C device/xiaomi/sdm660-common fetch
-git -C device/xiaomi/sdm660-common pull -r
-git -C device/xiaomi/lavender fetch
-git -C device/xiaomi/lavender pull -r
-make bacon -j16
-fi
-
-# KSU bc -_-
-if [ -e "/tmp/rom/out/error.log" ] && [ ! -e out/target/product/*/*.zip ] && [ $(cat /tmp/rom/out/error.log | grep -o -e 'KernelSU' -e 'FAILED: ' | head -n 1) ]; then
+git -C hardware/qcom-caf/sdm660/camera pull -r
+repo sync android_bionic
 make bacon -j16
 fi
 }
