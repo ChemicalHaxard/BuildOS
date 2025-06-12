@@ -1,7 +1,14 @@
 # Normal build steps
 . build/envsetup.sh
+# RBE
+. /tmp/ci/rbe
+#export NINJA_REMOTE_NUM_JOBS=150
+export RBE_CXX_LINKS_EXEC_STRATEGY=local
+#export RBE_METALAVA_EXEC_STRATEGY=local
+export RBE_LOG_LEVEL=debug
+#export USE_CCACHE=0
 lunch voltage_lavender-user
-lunch voltage_lavender-ap3a-user
+lunch voltage_lavender-bp2a-user
 
 build_gapps=0
 
@@ -9,12 +16,6 @@ build_gapps=0
 export TZ=Asia/Kolkata
 #export SELINUX_IGNORE_NEVERALLOWS=true
 export RELAX_USES_LIBRARY_CHECK=true
-if [ $K19 == 1 ]; then
-export TARGET_KERNEL_VERSION=4.19
-elif [ $K19 == 0 ]; then
-export TARGET_KERNEL_VERSION=4.4
-fi
-#export PRODUCT_DEFAULT_DEV_CERTIFICATE=vendor/lineage-priv/keys/releasekey
 export WITH_GMS=false
 
 exp_gapps () {
@@ -123,13 +124,14 @@ convert_dat
 convert_br
 tg "- Zipping OTA Package"
 zip -r1v ${rom_name}-${branch_name}-Community-lavender-$(date +"%F-%H%S").zip *
-#upload *.zip && exit 0
-mv *Community*.zip /tmp/rom/out/target/product/lavender
+mkdir -p /tmp/rom/out/target/product/lavender
+mv *.zip /tmp/rom/out/target/product/lavender
+cd /tmp/rom && ls /tmp/rom/out/target/product/lavender/*.zip
 }
 
 compile_plox () {
 # part 1
-#get_system_ext
+get_system_ext
 ger_product
 get_system
 get_vendor
