@@ -8,7 +8,7 @@ export RBE_CXX_LINKS_EXEC_STRATEGY=local
 export RBE_LOG_LEVEL=debug
 #export USE_CCACHE=0
 lunch voltage_lavender-user
-lunch voltage_lavender-bp2a-user
+lunch voltage_lavender-bp1a-user
 
 build_gapps=0
 
@@ -131,13 +131,14 @@ cd /tmp/rom && ls /tmp/rom/out/target/product/lavender/*.zip
 
 compile_plox () {
 # part 1
-get_system_ext
-ger_product
-get_system
-get_vendor
-get_odm
-get_boot
+#get_system_ext
+#get_product
+#get_system
+#get_vendor
+#get_odm
+#get_boot
+
 # part2 (choose manual zip or bacon if its not in parts)
-final_zip
-#m bacon -j8
+#final_zip
+m bacon -j16
 }
